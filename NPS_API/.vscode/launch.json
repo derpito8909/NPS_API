@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Nps API (Debug)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build Nps.Presentation",
+      "program": "${workspaceFolder}/src/Nps.Presentation/bin/Debug/net8.0/Nps.Presentation.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Nps.Presentation",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  ]
+}

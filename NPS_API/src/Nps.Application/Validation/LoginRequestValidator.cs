@@ -2,7 +2,7 @@ using FluentValidation;
 using Nps.Application.Dtos;
 namespace Nps.Application.Validation;
 
-public class LoginRequestValidator : AbstractValidator<LoginRequest>
+public class LoginRequestValidator : AbstractValidator<LoginRequestDto>
 {
     public LoginRequestValidator()
     {
