@@ -30,13 +30,12 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         });
     }
 
-    public async Task<RefreshToken?> GetValidTokenAsync(int userId, string tokenString)
+    public async Task<RefreshToken?> GetValidTokenAsync(string tokenString)
     {
         const string sql = @"
             SELECT Id, UserId, Token, ExpiresAt, IsRevoked
             FROM RefreshTokens
-            WHERE UserId = @UserId
-              AND Token = @Token
+            WHERE Token = @Token
               AND IsRevoked = 0
               AND ExpiresAt > SYSUTCDATETIME();
         ";
@@ -44,7 +43,6 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         using var connection = _context.CreateConnection();
         return await connection.QueryFirstOrDefaultAsync<RefreshToken>(sql, new
         {
-            UserId = userId,
             Token = tokenString
         });
     }

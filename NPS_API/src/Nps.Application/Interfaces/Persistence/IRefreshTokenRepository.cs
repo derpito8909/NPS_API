@@ -4,6 +4,6 @@ namespace Nps.Application.Interfaces.Persistence;
 public interface IRefreshTokenRepository
 {
     Task AddAsync(RefreshToken token);
-    Task<RefreshToken?> GetValidTokenAsync(int userId, string token);
+    Task<RefreshToken?> GetValidTokenAsync(string token);
     Task RevokeAsync(RefreshToken token);
 }
