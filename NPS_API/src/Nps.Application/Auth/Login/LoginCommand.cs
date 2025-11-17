@@ -1,5 +1,5 @@
 using MediatR;
-using Nps.Application.Dtos;
+using Nps.Application.Dtos.Login;
 namespace Nps.Application.Auth.Login;
 
 public record LoginCommand(string Username, string Password) : IRequest<LoginResponseDto>;

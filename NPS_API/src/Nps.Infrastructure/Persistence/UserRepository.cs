@@ -1,6 +1,7 @@
 using Dapper;
 using Nps.Application.Interfaces.Persistence;
 using Nps.Domain.Entities;
+using Nps.Domain.Enums;
 
 namespace Nps.Infrastructure.Persistence;
 
@@ -82,6 +83,18 @@ public class UserRepository : IUserRepository
         typeof(User)
             .GetProperty(nameof(User.Id))!
             .SetValue(user, id);
+    }
+    public async Task<User?> GetAnyAdminAsync()
+    {
+        const string sql = @"
+        SELECT TOP 1 Id, Username, PasswordHash, Role,
+                     FailedLoginAttempts, IsLocked, LastLoginAt
+        FROM Users
+        WHERE Role = @Role;
+    ";
+
+        using var connection = _context.CreateConnection();
+        return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Role = (int)UserRole.Admin });
     }
 }
 

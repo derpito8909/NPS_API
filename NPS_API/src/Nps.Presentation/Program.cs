@@ -9,6 +9,7 @@ using Nps.Application.Interfaces.Security;
 using Nps.Application.Interfaces.Persistence;
 using Nps.Infrastructure.Security;
 using Nps.Infrastructure.Persistence;
+using Nps.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +83,7 @@ builder.Services.AddSingleton<DapperContext>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<INpsRepository, NpsRepository>();
 
 
 var app = builder.Build();
@@ -93,6 +95,15 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "NPS API v1");
     });
+}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var userRepo = services.GetRequiredService<IUserRepository>();
+    var passwordHasher = services.GetRequiredService<IPasswordHasher>();
+
+    await DatabaseSeeder.SeedAdminUserAsync(userRepo, passwordHasher);
 }
 
 app.UseHttpsRedirection();

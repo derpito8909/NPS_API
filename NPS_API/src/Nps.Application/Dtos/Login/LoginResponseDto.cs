@@ -1,4 +1,4 @@
-namespace Nps.Application.Dtos;
+namespace Nps.Application.Dtos.Login;
 
 public class LoginResponseDto
 {

@@ -1,5 +1,5 @@
 using MediatR;
-using Nps.Application.Dtos;
+using Nps.Application.Dtos.Login;
 using Nps.Application.Interfaces.Persistence;
 using Nps.Application.Interfaces.Security;
 using Nps.Domain.Entities;

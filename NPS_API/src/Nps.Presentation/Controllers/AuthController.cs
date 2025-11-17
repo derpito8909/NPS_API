@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Nps.Application.Dtos;
+using Nps.Application.Dtos.Login;
 using Nps.Application.Auth.Login;
 using Nps.Application.Auth.Refresh;
 using Microsoft.AspNetCore.Authorization;

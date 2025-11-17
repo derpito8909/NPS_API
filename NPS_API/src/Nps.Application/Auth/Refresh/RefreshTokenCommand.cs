@@ -1,5 +1,5 @@
 using MediatR;
-using Nps.Application.Dtos;
+using Nps.Application.Dtos.Login;
 namespace Nps.Application.Auth.Refresh;
 
 public record RefreshTokenCommand(string RefreshToken) : IRequest<LoginResponseDto>;

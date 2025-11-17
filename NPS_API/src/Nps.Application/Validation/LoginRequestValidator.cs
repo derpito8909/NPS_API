@@ -1,5 +1,5 @@
 using FluentValidation;
-using Nps.Application.Dtos;
+using Nps.Application.Dtos.Login;
 namespace Nps.Application.Validation;
 
 public class LoginRequestValidator : AbstractValidator<LoginRequestDto>
