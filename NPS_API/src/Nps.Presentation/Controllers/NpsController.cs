@@ -9,17 +9,30 @@ using Nps.Application.Nps.Vote;
 
 namespace Nps.Presentation.Controllers;
 
+/// <summary>
+/// Controlador encargado de manejar las operaciones relacionadas con el NPS,
+/// como votar y obtener resultados.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class NpsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
+    /// <summary>
+    /// Inicializa una nueva instancia de la clase <see cref="NpsController"/>.
+    /// </summary>
+    /// <param name="mediator">Instancia de IMediator para enviar comandos y consultas.</param>
     public NpsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Maneja la solicitud de votación NPS.
+    /// </summary>
+    /// <param name="model">Datos de la votación NPS.</param>
+    /// <returns>Respuesta con el resultado de la votación.</returns>
     [HttpPost("vote")]
     [Authorize(Roles = "Voter")]
     public async Task<ActionResult<VoteNpsResponseDto>> Vote([FromBody] VoteNpsRequestDto model)
@@ -39,6 +52,10 @@ public class NpsController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Maneja la solicitud para obtener el resultado del NPS.
+    /// </summary>
+    /// <returns>Respuesta con el resultado del NPS.</returns>
     [HttpGet("result")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<NpsResultDto>> GetResult()

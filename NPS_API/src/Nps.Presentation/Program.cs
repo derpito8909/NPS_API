@@ -10,6 +10,7 @@ using Nps.Application.Interfaces.Persistence;
 using Nps.Infrastructure.Security;
 using Nps.Infrastructure.Persistence;
 using Nps.Infrastructure.Seed;
+using Nps.Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,6 +108,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
