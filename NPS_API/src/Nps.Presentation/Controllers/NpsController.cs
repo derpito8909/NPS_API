@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nps.Application.Dtos.Nps;
 using Nps.Application.Nps.Result;
 using Nps.Application.Nps.Vote;
+using Nps.Application.Nps.GetActiveQuestion;
 
 namespace Nps.Presentation.Controllers;
 
@@ -61,6 +62,19 @@ public class NpsController : ControllerBase
     public async Task<ActionResult<NpsResultDto>> GetResult()
     {
         var query = new GetNpsResultQuery();
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Obtiene la pregunta NPS activa para mostrar al usuario votante.
+    /// </summary>
+    /// <returns>Pregunta activa o mensaje informativo si no hay.</returns>
+    [HttpGet("active")]
+    [Authorize(Roles = "Admin,Voter")]
+    public async Task<ActionResult<ActiveNpsQuestionDto>> GetActiveQuestion()
+    {
+        var query = new GetActiveNpsQuestionQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
