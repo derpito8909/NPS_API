@@ -54,7 +54,7 @@ public class VoteNpsCommandHandler : IRequestHandler<VoteNpsCommand, VoteNpsResp
     public async Task<VoteNpsResponseDto> Handle(VoteNpsCommand request, CancellationToken cancellationToken)
     {
 
-        var user = await _userRepository.GetByIdAsync(request.UserId);
+        var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
         if (user is null)
             throw new AuthenticationException("Usuario no válido para votar.");
 

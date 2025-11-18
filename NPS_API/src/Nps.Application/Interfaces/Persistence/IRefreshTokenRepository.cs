@@ -9,18 +9,19 @@ public interface IRefreshTokenRepository
     /// Agrega un nuevo token de actualización a la base de datos.
     /// </summary>
     /// <param name="token">Token de actualización a agregar.</param>
-    Task AddAsync(RefreshToken token);
+    /// <param name="cancellationToken">Token de cancelación.</param>
+    Task AddAsync(RefreshToken token, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Obtiene un token de actualización válido por su valor.
+    /// Obtiene un refresh token por su valor exacto.
+    /// No filtra por estado; la lógica de "activo" se delega a la entidad.
     /// </summary>
-    /// <param name="token">Valor del token de actualización.</param>
-    /// <returns>Instancia de <see cref="RefreshToken"/> si es válido; de lo contrario, <c>null</c>.</returns>
-    Task<RefreshToken?> GetValidTokenAsync(string token);
+    Task<RefreshToken?> GetByTokenAsync(string token, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revoca un token de actualización, marcándolo como inválido.
     /// </summary>
     /// <param name="token">Token de actualización a revocar.</param>
-    Task RevokeAsync(RefreshToken token);
+    /// <param name="cancellationToken">Token de cancelación.</param>
+    Task RevokeAsync(RefreshToken token, CancellationToken cancellationToken);
 }

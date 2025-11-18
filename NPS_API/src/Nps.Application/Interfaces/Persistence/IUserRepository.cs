@@ -16,8 +16,9 @@ public interface IUserRepository
     /// Obtiene un usuario por su identificador.
     /// </summary>
     /// <param name="id">Identificador del usuario.</param>
+    /// <param name="cancellationToken">Token de cancelación.</param>
     /// <returns>Instancia de <see cref="User"/> o <c>null</c> si no existe.</returns>
-    Task<User?> GetByIdAsync(int id);
+    Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken);
     /// <summary>
     /// Obtiene un usuario con rol administrador, si existe alguno.
     /// </summary>

@@ -13,7 +13,7 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         _context = context;
     }
 
-    public async Task AddAsync(RefreshToken token)
+    public async Task AddAsync(RefreshToken token, CancellationToken cancellationToken = default)
     {
         const string sql = @"
             INSERT INTO RefreshTokens (UserId, Token, ExpiresAt, IsRevoked)
@@ -30,24 +30,24 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         });
     }
 
-    public async Task<RefreshToken?> GetValidTokenAsync(string tokenString)
+    public async Task<RefreshToken?> GetByTokenAsync(string tokenString, CancellationToken cancellationToken = default)
     {
         const string sql = @"
             SELECT Id, UserId, Token, ExpiresAt, IsRevoked
             FROM RefreshTokens
-            WHERE Token = @Token
-              AND IsRevoked = 0
-              AND ExpiresAt > SYSUTCDATETIME();
+            WHERE Token = @Token;
         ";
 
         using var connection = _context.CreateConnection();
-        return await connection.QueryFirstOrDefaultAsync<RefreshToken>(sql, new
-        {
-            Token = tokenString
-        });
+        return await connection.QueryFirstOrDefaultAsync<RefreshToken>(
+            new CommandDefinition(
+                sql,
+                new { Token = tokenString },
+                cancellationToken: cancellationToken
+            ));
     }
 
-    public async Task RevokeAsync(RefreshToken token)
+    public async Task RevokeAsync(RefreshToken token, CancellationToken cancellationToken = default)
     {
         const string sql = @"
             UPDATE RefreshTokens

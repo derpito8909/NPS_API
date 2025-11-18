@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
         return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Username = username });
     }
 
-    public async Task<User?> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         const string sql = @"SELECT Id, Username, PasswordHash, Role, 
                                     FailedLoginAttempts, IsLocked, LastLoginAt
@@ -53,7 +53,7 @@ public class UserRepository : IUserRepository
         {
             user.Username,
             user.PasswordHash,
-            Role = (int)user.Role,
+            Role = user.Role.ToString(),
             user.FailedLoginAttempts,
             user.IsLocked,
             user.LastLoginAt,
@@ -74,7 +74,7 @@ public class UserRepository : IUserRepository
         {
             user.Username,
             user.PasswordHash,
-            Role = (int)user.Role,
+            Role = user.Role.ToString(),
             user.FailedLoginAttempts,
             user.IsLocked,
             user.LastLoginAt
@@ -94,7 +94,12 @@ public class UserRepository : IUserRepository
     ";
 
         using var connection = _context.CreateConnection();
-        return await connection.QueryFirstOrDefaultAsync<User>(sql, new { Role = (int)UserRole.Admin });
+        var roleString = UserRole.Admin.ToString();
+
+        return await connection.QueryFirstOrDefaultAsync<User>(
+            sql,
+            new { Role = roleString }
+        );
     }
 }
 

@@ -41,14 +41,14 @@ public class RefreshTokenCommandHandler
     /// <returns>Respuesta de inicio de sesión con nuevos tokens.</returns>
     public async Task<LoginResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var storedToken = await _refreshTokenRepository.GetValidTokenAsync(request.RefreshToken);
+        var storedToken = await _refreshTokenRepository.GetByTokenAsync(request.RefreshToken, cancellationToken);
 
         if (storedToken is null || !storedToken.IsActive())
         {
             throw new AuthenticationException("Refresh token inválido o expirado.");
         }
 
-        var user = await _userRepository.GetByIdAsync(storedToken.UserId);
+        var user = await _userRepository.GetByIdAsync(storedToken.UserId, cancellationToken);
 
         if (user is null)
         {
@@ -61,7 +61,7 @@ public class RefreshTokenCommandHandler
         }
 
         storedToken.Revoke();
-        await _refreshTokenRepository.RevokeAsync(storedToken);
+        await _refreshTokenRepository.RevokeAsync(storedToken, cancellationToken);
 
         var accessToken = _jwtTokenService.GenerateAccessToken(user);
         var newRefresh = _jwtTokenService.GenerateRefreshToken();
@@ -72,7 +72,7 @@ public class RefreshTokenCommandHandler
             expiresAt: newRefresh.ExpiresAt
         );
 
-        await _refreshTokenRepository.AddAsync(newRefreshEntity);
+        await _refreshTokenRepository.AddAsync(newRefreshEntity, cancellationToken);
 
         return new LoginResponseDto
         {

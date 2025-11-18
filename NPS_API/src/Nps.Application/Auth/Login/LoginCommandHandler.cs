@@ -82,7 +82,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponseDt
             expiresAt: refreshTokenResult.ExpiresAt
         );
 
-        await _refreshTokenRepository.AddAsync(refreshToken);
+        await _refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
 
         return new LoginResponseDto
         {
