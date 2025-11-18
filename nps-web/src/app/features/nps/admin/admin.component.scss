@@ -1,0 +1,62 @@
+.nps-admin-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.question {
+  margin-bottom: 1.5rem;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-width: 140px;
+}
+
+.card.promoters {
+  border-color: #2e7d32;
+}
+
+.card.neutrals {
+  border-color: #f9a825;
+}
+
+.card.detractors {
+  border-color: #c62828;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.value {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.nps-score {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.loading,
+.no-data,
+.error {
+  margin-top: 2rem;
+}
+
+.error {
+  color: #c62828;
+}

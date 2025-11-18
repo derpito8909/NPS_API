@@ -1,0 +1,65 @@
+<div class="auth">
+  <div class="card">
+    <h1 class="card__title">Iniciar sesión</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="form">
+      <div class="form__group">
+        <label for="username" class="form__label"
+          >Usuario: <span class="req">*</span></label
+        >
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          class="form__input"
+          autocomplete="username"
+        />
+        <small
+          class="form__error"
+          *ngIf="
+            form.controls.username.touched &&
+            form.controls.username.hasError('required')
+          "
+        >
+          El usuario es obligatorio
+        </small>
+      </div>
+
+      <!-- Password -->
+      <div class="form__group">
+        <label for="password" class="form__label"
+          >Contraseña: <span class="req">*</span></label
+        >
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form__input"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        <small
+          class="form__error"
+          *ngIf="
+            form.controls.password.touched &&
+            form.controls.password.hasError('required')
+          "
+        >
+          La contraseña es obligatoria
+        </small>
+      </div>
+
+      <!-- Error general -->
+      <p class="alert alert--error" *ngIf="error">{{ error }}</p>
+
+      <!-- Submit -->
+      <button
+        class="btn btn--primary btn--block"
+        type="submit"
+        [disabled]="loading"
+      >
+        {{ loading ? "Entrando…" : "Entrar" }}
+      </button>
+    </form>
+  </div>
+</div>

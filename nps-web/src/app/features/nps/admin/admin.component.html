@@ -1,0 +1,49 @@
+<div class="nps-admin-container" *ngIf="!loading; else loadingTpl">
+  <h2>Resultado NPS</h2>
+
+  <div *ngIf="result; else noDataTpl">
+    <div class="question">
+      <strong>Pregunta activa:</strong>
+      <div>{{ result.question }}</div>
+    </div>
+
+    <div class="summary">
+      <div class="card">
+        <div class="label">Total votos</div>
+        <div class="value">{{ result.totalVotes }}</div>
+      </div>
+      <div class="card promoters">
+        <div class="label">Promotores (9-10)</div>
+        <div class="value">{{ result.promoters }}</div>
+      </div>
+      <div class="card neutrals">
+        <div class="label">Neutros (7-8)</div>
+        <div class="value">{{ result.neutrals }}</div>
+      </div>
+      <div class="card detractors">
+        <div class="label">Detractores (0-6)</div>
+        <div class="value">{{ result.detractors }}</div>
+      </div>
+    </div>
+
+    <div class="nps-score" [style.color]="getNpsColor()">
+      NPS: {{ result.nps | number : "1.0-1" }} %
+    </div>
+
+    <button type="button" (click)="loadResult()">Actualizar</button>
+  </div>
+
+  <div class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Cargando resultado NPS...</div>
+</ng-template>
+
+<ng-template #noDataTpl>
+  <div class="no-data">
+    No se encontró una pregunta NPS activa o no hay votos registrados.
+  </div>
+</ng-template>

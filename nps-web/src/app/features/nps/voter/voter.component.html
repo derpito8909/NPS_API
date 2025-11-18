@@ -1,0 +1,55 @@
+<div class="nps-voter-container" *ngIf="!loadingQuestion; else loadingTpl">
+  <h2 class="nps-title">Encuesta NPS</h2>
+
+  <div class="nps-question" *ngIf="question; else noQuestionTpl">
+    {{ question }}
+  </div>
+
+  <!-- Escala 0-10, solo selección, no input libre -->
+  <div class="nps-scale" *ngIf="question">
+    <button
+      *ngFor="let s of scores"
+      type="button"
+      class="score-btn"
+      [class.selected]="selectedScore === s"
+      [disabled]="hasVoted || submitting"
+      (click)="selectScore(s)"
+    >
+      {{ s }}
+    </button>
+  </div>
+
+  <div class="nps-actions" *ngIf="question">
+    <button
+      type="button"
+      class="submit-btn"
+      [disabled]="selectedScore === null || submitting || hasVoted"
+      (click)="submitVote()"
+    >
+      {{
+        hasVoted
+          ? "Voto registrado"
+          : submitting
+          ? "Enviando..."
+          : "Enviar voto"
+      }}
+    </button>
+  </div>
+
+  <div class="nps-messages">
+    <p class="success" *ngIf="successMessage">
+      {{ successMessage }}
+    </p>
+    <p class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Cargando pregunta NPS...</div>
+</ng-template>
+
+<ng-template #noQuestionTpl>
+  <div class="no-question">No hay una pregunta NPS activa en este momento.</div>
+</ng-template>
